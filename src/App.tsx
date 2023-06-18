@@ -10,6 +10,7 @@ function App() {
     const [input, setInput] = useState("");
     const [output, setOutput] = useState("");
 
+    // Render the pacman based on the direction set
     const handleChangeDirection = (direction: String) => {
         switch (direction) {
             case "EAST":
@@ -43,6 +44,7 @@ function App() {
         }
     };
 
+    // move the pacman
     const handleMove = useCallback(() => {
         let col = Number(position.split(",")[0]);
         let row = Number(position.split(",")[1]);
@@ -83,10 +85,12 @@ function App() {
         setGridItems(gridItems);
     }, [position, direction]);
 
+    // re-render whenever position or direction changes
     useEffect(() => {
         renderGridItems();
     }, [position, direction, renderGridItems]);
 
+    // submit input
     const handleSubmit = useCallback(() => {
         if (!input.startsWith("PLACE ")) {
             setErrorMsg("Input must start with 'PLACE ' ");
@@ -112,6 +116,7 @@ function App() {
         setDirection(direction);
     }, [input]);
 
+    // handle rotating the pacman based on left/right input
     const handleRotate = (clockwise: boolean) => {
         const directions = ["NORTH", "EAST", "SOUTH", "WEST"];
         const currentIndex = directions.indexOf(direction);
@@ -122,6 +127,7 @@ function App() {
         setDirection(directions[nextIndex]);
     };
 
+    // report current position of pacman
     const reportCurrentPosition = useCallback(() => {
         let outputString = `${position},${direction}`;
         setOutput(outputString);

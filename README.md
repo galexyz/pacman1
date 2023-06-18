@@ -14,3 +14,4 @@ Styling used: TailwindCSS
 
 1. `npm install` to build dependencies if you haven't already
 2. `npm test` to run tests using Jest/react-testing-library
+3. `a` to run all tests
