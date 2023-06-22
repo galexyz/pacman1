@@ -90,8 +90,30 @@ function App() {
         renderGridItems();
     }, [position, direction, renderGridItems]);
 
+    // handle rotating the pacman based on left/right input
+    const handleRotate = useCallback(
+        (clockwise: boolean) => {
+            const directions = ["NORTH", "EAST", "SOUTH", "WEST"];
+            const currentIndex = directions.indexOf(direction);
+            const rotationOffset = clockwise ? 1 : -1;
+            const nextIndex =
+                (currentIndex + rotationOffset + directions.length) %
+                directions.length;
+            setDirection(directions[nextIndex]);
+        },
+        [direction]
+    );
+
     // submit input
     const handleSubmit = useCallback(() => {
+        if (input === "LEFT" && position) {
+            handleRotate(false);
+            return;
+        }
+        if (input === "RIGHT" && position) {
+            handleRotate(true);
+            return;
+        }
         if (!input.startsWith("PLACE ")) {
             setErrorMsg("Input must start with 'PLACE ' ");
             return;
@@ -114,18 +136,7 @@ function App() {
         }
         setPosition(`${col},${row}`);
         setDirection(direction);
-    }, [input]);
-
-    // handle rotating the pacman based on left/right input
-    const handleRotate = (clockwise: boolean) => {
-        const directions = ["NORTH", "EAST", "SOUTH", "WEST"];
-        const currentIndex = directions.indexOf(direction);
-        const rotationOffset = clockwise ? 1 : -1;
-        const nextIndex =
-            (currentIndex + rotationOffset + directions.length) %
-            directions.length;
-        setDirection(directions[nextIndex]);
-    };
+    }, [handleRotate, input, position]);
 
     // report current position of pacman
     const reportCurrentPosition = useCallback(() => {

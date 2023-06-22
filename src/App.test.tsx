@@ -124,6 +124,28 @@ describe("App", () => {
 
         expect(positionElement.textContent).toBe("Output: 3,3,NORTH");
     });
+    test("Mixture of arrow button & LEFT/RIGHT text input", () => {
+        fireEvent.change(inputField, {
+            target: { value: "PLACE 4,0,WEST" },
+        });
+        fireEvent.click(submitButton);
+        fireEvent.click(rightButton);
+        fireEvent.click(moveButton);
+        fireEvent.change(inputField, {
+            target: { value: "RIGHT" },
+        });
+        fireEvent.click(submitButton);
+        fireEvent.change(inputField, {
+            target: { value: "LEFT" },
+        });
+        fireEvent.click(submitButton);
+        fireEvent.change(inputField, {
+            target: { value: "LEFT" },
+        });
+        fireEvent.click(submitButton);
+        fireEvent.click(reportButton);
+        expect(positionElement.textContent).toBe("Output: 4,1,WEST");
+    });
     test("Pac-Man attempts to move off grid", () => {
         fireEvent.change(inputField, {
             target: { value: "PLACE 4,0,NORTH" },
